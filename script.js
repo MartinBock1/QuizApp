@@ -40,44 +40,44 @@ let questions = [
         "right_answer": 2
     },
     {
-        "question": "Was bedeutet HTML?",
-        "answer_1": "Hypertext Markup Language",
-        "answer_2": "High Text Markup Language",
-        "answer_3": "Hyperlink and Text Markup Language",
-        "answer_4": "Hypertext Machine Language",
+        "question": "Was bedeutet CSS?",
+        "answer_1": "Cascading Style Sheets",
+        "answer_2": "Computer Style Sheets",
+        "answer_3": "Creative Style Systems",
+        "answer_4": "Cascading Style System",
         "right_answer": 1
     },
     {
-        "question": "Welches Element wird verwendet, um einen Absatz in HTML zu erstellen?",
-        "answer_1": "<p>",
-        "answer_2": "<div>",
-        "answer_3": "<span>",
-        "answer_4": "<section>",
+        "question": "Was bedeutet HTTP?",
+        "answer_1": "Hypertext Transfer Protocol",
+        "answer_2": "High Text Transfer Protocol",
+        "answer_3": "Hyperlink Transfer Protocol",
+        "answer_4": "Hypertext Transmission Protocol",
         "right_answer": 1
     },
     {
-        "question": "Welches Attribut wird verwendet, um eine URL in einem Link anzugeben?",
-        "answer_1": "src",
-        "answer_2": "href",
-        "answer_3": "link",
-        "answer_4": "url",
-        "right_answer": 2
-    },
-    {
-        "question": "Welches HTML-Element wird verwendet, um eine Überschrift der höchsten Ebene zu erstellen?",
-        "answer_1": "<h1>",
-        "answer_2": "<header>",
-        "answer_3": "<heading>",
-        "answer_4": "<h6>",
+        "question": "Was bedeutet URL?",
+        "answer_1": "Uniform Resource Locator",
+        "answer_2": "Universal Resource Locator",
+        "answer_3": "Uniform Reference Locator",
+        "answer_4": "Universal Reference Locator",
         "right_answer": 1
     },
     {
-        "question": "Welches Element wird verwendet, um eine ungeordnete Liste in HTML zu erstellen?",
-        "answer_1": "<ol>",
-        "answer_2": "<ul>",
-        "answer_3": "<list>",
-        "answer_4": "<li>",
-        "right_answer": 2
+        "question": "Was bedeutet API?",
+        "answer_1": "Application Programming Interface",
+        "answer_2": "Application Programming Integration",
+        "answer_3": "Application Protocol Interface",
+        "answer_4": "Application Program Interface",
+        "right_answer": 1
+    },
+    {
+        "question": "Was bedeutet SQL?",
+        "answer_1": "Structured Query Language",
+        "answer_2": "Standard Query Language",
+        "answer_3": "Simple Query Language",
+        "answer_4": "Structured Question Language",
+        "right_answer": 1
     }
 ];
 
@@ -89,22 +89,30 @@ function init() {
 }
 
 /**
- * wir nehmen das erste element aus dem array und speichern es in die variable
+ * wir nehmen das erste element aus dem array und speichern es in die variable 'question'
+ * die antwortcontainer werden mit den werten aus dem objekt befüllt
  * */
 function showQuestion() {
-    let question = questions[currentQuestion];
 
-    document.getElementById('questionext').innerHTML = question['question'];
-    document.getElementById('answer_1').innerHTML = question['answer_1'];
-    document.getElementById('answer_2').innerHTML = question['answer_2'];
-    document.getElementById('answer_3').innerHTML = question['answer_3'];
-    document.getElementById('answer_4').innerHTML = question['answer_4'];
+    if (currentQuestion >= questions.length) {
+        document.getElementById('end-screen').style = '';
+        document.getElementById('question-body').style = 'display: none';
+    } else {
+        let question = questions[currentQuestion];
+
+        document.getElementById('questiontext').innerHTML = question['question'];
+        document.getElementById('answer_1').innerHTML = question['answer_1'];
+        document.getElementById('answer_2').innerHTML = question['answer_2'];
+        document.getElementById('answer_3').innerHTML = question['answer_3'];
+        document.getElementById('answer_4').innerHTML = question['answer_4'];
+        document.getElementById('displayed-question').innerHTML = currentQuestion + 1;
+    }
 }
 
 /**
  * in 'question' wird das 0-te element (also 1. frage) gespeichert
  * 'selection.slice(-1)' nimmte den letzten buchstaben von der angeklickten antwort und speichert das ergebnis in die variable 'selectedQuestionNumber'
- * mit einer 'if-abfrage' geben wir das ergebnis der antwort in der console aus
+ * mit einer 'if-else-abfrage' geben wir das ergebnis der antwort in der console aus
  * '.parentNode' spricht den übergeordneten container an
  * mit '.parentNode.classList.add('bg-success')' fügen wir der richtigen antwort die css-klasse 'bg-success' zu
  * mit '.parentNode.classList.add('bg-danger')' fügen wir der falschen antwort die css-klasse 'bg-danger' zu
@@ -119,13 +127,32 @@ function answer(selection) {
     let idOfRightAnswer = `answer_${question['right_answer']}`;
 
     if (selectedQuestionNumber == question['right_answer']) {
-        console.log('Richtige Antwort!!');
+        // console.log('Richtige Antwort!!');
         document.getElementById(selection).parentNode.classList.add('bg-success');
     } else {
-        console.log('Falsche Antwort!!!');
+        // console.log('Falsche Antwort!!!');
         document.getElementById(selection).parentNode.classList.add('bg-danger');
         document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');
     }
 
     document.getElementById('next-button').disabled = false;
+}
+
+function nextQuestion() {
+    currentQuestion++;  //z.B. von 0 auf 1
+    document.getElementById('next-button').disabled = true;
+    resetAnswerButtons();
+    showQuestion();
+}
+
+function resetAnswerButtons() {
+
+    document.getElementById('answer_1').parentNode.classList.remove('bg-success');
+    document.getElementById('answer_1').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_2').parentNode.classList.remove('bg-success');
+    document.getElementById('answer_2').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_3').parentNode.classList.remove('bg-success');
+    document.getElementById('answer_3').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_4').parentNode.classList.remove('bg-success');
+    document.getElementById('answer_4').parentNode.classList.remove('bg-danger');
 }
